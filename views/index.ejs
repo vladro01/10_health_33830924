@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LevelUp Health Quests</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="logo-dot"></div>
+        <span class="app-name">LevelUp</span>
+        <span class="app-subtitle">Health Quests</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/" class="nav-link nav-link-active">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
+      </nav>
+
+      <div class="user-area">
+        <% if (isAuthenticated) { %>
+          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+          <% } %>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+        <% } else { %>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
+        <% } %>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: Daily quest -->
+      <section class="card card-quest">
+        <div class="card-quest-header">
+          <div>
+            <p class="eyebrow">Daily Quest</p>
+            <h1 class="quest-title">
+                <%= dailyQuest ? dailyQuest.name : 'Daily Quest' %>
+            </h1>
+            <p class="quest-subtitle">
+                <%= dailyQuest ? dailyQuest.description : 'Build a stronger core with a focused 20-minute routine.' %>
+            </p>
+          </div>
+          <div class="quest-meta">
+            <span class="pill pill-yellow">Medium</span>
+            <span class="pill">20 min</span>
+          </div>
+        </div>
+
+        <div class="card-quest-body">
+          <div class="quest-progress">
+            <div class="progress-ring">
+              <div class="progress-ring-inner">
+                <span class="pill pill-yellow">
+                    <%= dailyQuest ? (dailyQuest.difficulty.charAt(0).toUpperCase() + dailyQuest.difficulty.slice(1)) : 'Medium' %>
+                </span>
+                <span class="pill">
+                    <%= dailyQuest && dailyQuest.target_minutes ? dailyQuest.target_minutes : 20 %> min
+                </span>
+              </div>
+            </div>
+            <p class="progress-text">
+              Complete all 4 exercises to finish today’s core quest. Log your run
+              times and reps to level up.
+            </p>
+            <a
+                href="<%= dailyQuest ? ('/quests/' + dailyQuest.id) : '/quests' %>"
+                class="btn btn-primary large" >Start quest</a>
+          </div>
+
+          <div class="quest-exercises">
+            <p class="section-label">Exercises</p>
+            <ul class="exercise-list">
+              <li class="exercise-item">
+                <div class="exercise-icon">⏱</div>
+                <div class="exercise-text">
+                  <p class="exercise-name">Plank</p>
+                  <p class="exercise-meta">3 sets · 45 seconds</p>
+                </div>
+              </li>
+              <li class="exercise-item">
+                <div class="exercise-icon">🔥</div>
+                <div class="exercise-text">
+                  <p class="exercise-name">Air Bike</p>
+                  <p class="exercise-meta">3 sets · 45 seconds</p>
+                </div>
+              </li>
+              <li class="exercise-item">
+                <div class="exercise-icon">🏋️</div>
+                <div class="exercise-text">
+                  <p class="exercise-name">Hanging Knee Tuck</p>
+                  <p class="exercise-meta">3 sets · 30 reps</p>
+                </div>
+              </li>
+              <li class="exercise-item">
+                <div class="exercise-icon">💥</div>
+                <div class="exercise-text">
+                  <p class="exercise-name">Reverse Crunch</p>
+                  <p class="exercise-meta">3 sets · 36 reps</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <footer class="card-quest-footer">
+          <% if (isAuthenticated) { %>
+            <p class="hint">
+              After finishing, open the quest and use
+              <strong>“Log completion”</strong> to track your progress.
+            </p>
+          <% } else { %>
+            <p class="hint">
+              <a href="/users/login">Log in</a> to start tracking your progress and unlock logs.
+            </p>
+          <% } %>
+        </footer>
+      </section>
+
+      <!-- RIGHT: Weather + quick stats -->
+      <aside class="sidebar">
+        <section class="card card-weather">
+          <p class="eyebrow">Heading outside?</p>
+          <h2 class="card-title">Check the weather</h2>
+          <p class="card-text">
+            Planning a jog? Use the weather checker to see if conditions are good
+            for the <strong>Medium Jogging Quest</strong>.
+          </p>
+          <a href="/weather" class="btn btn-outline full-width">Open weather module</a>
+        </section>
+
+        <section class="card card-stats">
+          <h2 class="card-title">Your journey</h2>
+          <li class="stat-item">
+            <span class="stat-label">Quests available</span>
+            <span class="stat-value"><%= questsAvailable || '—' %></span>
+          </li>
+          <li class="stat-item">
+            <span class="stat-label">Core-focused quests</span>
+            <span class="stat-value"><%= coreQuests || '0' %></span>
+          </li>
+          <li class="stat-item">
+            <span class="stat-label">Outdoor quests</span>
+            <span class="stat-value"><%= outdoorQuests || '0' %></span>
+          </li>
+          <p class="card-text small">
+            View <a href="/quests">all quests</a> or
+            <a href="/quests/me/logs">your logs</a> to see how you’re progressing.
+          </p>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>

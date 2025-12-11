@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Log quest - LevelUp</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="logo-dot"></div>
+        <span class="app-name">LevelUp</span>
+        <span class="app-subtitle">Health Quests</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link nav-link-active">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
+      </nav>
+
+      <div class="user-area">
+        <% if (isAuthenticated) { %>
+          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+          <% } %>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+        <% } else { %>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
+        <% } %>
+      </div>
+    </header>
+
+    <main class="content-narrow">
+      <section class="card-page">
+        <p class="eyebrow">Quest log</p>
+        <h1 class="page-title">Log completion</h1>
+        <p class="page-subtitle">
+          Record when you completed this quest and how it went.
+        </p>
+
+        <form method="post" action="/quests/<%= questId %>/log" class="stack-vertical">
+          <div class="form-row">
+            <label>Date</label>
+            <input type="date" name="performed_on" value="<%= new Date().toISOString().slice(0,10) %>">
+          </div>
+          <div class="form-row">
+            <label>Duration (minutes)</label>
+            <input type="number" name="duration_minutes" min="0" placeholder="20">
+          </div>
+          <div class="form-row">
+            <label>Status</label>
+            <select name="status">
+              <option value="completed">Completed</option>
+              <option value="failed">Failed</option>
+              <option value="abandoned">Abandoned</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Notes</label>
+            <textarea name="notes" rows="4" placeholder="How did it feel? Any adjustments for next time?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save log</button>
+          <a href="/quests/<%= questId %>" class="btn btn-ghost small">Back to quest</a>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

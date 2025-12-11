@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Register – LevelUp</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="logo-dot"></div>
+        <span class="app-name">LevelUp</span>
+        <span class="app-subtitle">Health Quests</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
+      </nav>
+
+      <div class="user-area">
+        <% if (isAuthenticated) { %>
+          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+          <% } %>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+        <% } else { %>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
+        <% } %>
+      </div>
+    </header>
+
+    <main class="content-narrow">
+      <section class="card-page">
+        <p class="eyebrow">Account</p>
+        <h1 class="page-title">Create an account</h1>
+        <p class="page-subtitle">
+          Register to track your LevelUp quests and see your progress history.
+        </p>
+
+        <% if (error) { %>
+          <div class="error-banner"><%= error %></div>
+        <% } %>
+
+        <form method="post" action="/users/register" class="stack-vertical">
+          <div class="form-row">
+            <label>Username</label>
+            <input type="text" name="username" value="<%= values.username %>" required>
+          </div>
+          <div class="form-row">
+            <label>Password</label>
+            <input type="password" name="password" required>
+          </div>
+          <div class="form-row">
+            <label>Confirm password</label>
+            <input type="password" name="confirm" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+          <a href="/users/login" class="btn btn-ghost small">Back to login</a>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

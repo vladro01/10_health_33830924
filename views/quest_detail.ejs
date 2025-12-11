@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= quest.name %> – LevelUp</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="logo-dot"></div>
+        <span class="app-name">LevelUp</span>
+        <span class="app-subtitle">Health Quests</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link nav-link-active">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
+      </nav>
+
+      <div class="user-area">
+        <% if (isAuthenticated) { %>
+          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+          <% } %>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+        <% } else { %>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
+        <% } %>
+      </div>
+    </header>
+
+    <main class="content-wide">
+      <section class="card-page">
+        <p class="eyebrow">Quest</p>
+        <h1 class="page-title"><%= quest.name %></h1>
+        <p class="page-subtitle">
+          Difficulty: <span class="badge"><%= quest.difficulty %></span>
+          <% if (quest.is_outdoor) { %>
+            · Outdoor quest - you may want to <a href="/weather">check the weather</a> first.
+          <% } %>
+        </p>
+
+        <p><%= quest.description %></p>
+
+        <p class="card-text small">
+          Target duration: <strong><%= quest.target_minutes || 'N/A' %> minutes</strong>.
+        </p>
+
+        <h2 class="card-title" style="margin-top: 16px;">Exercises</h2>
+        <ul class="exercise-list">
+          <% exercises.forEach(function(ex) { %>
+            <li class="exercise-item">
+              <div class="exercise-icon">★</div>
+              <div class="exercise-text">
+                <p class="exercise-name"><%= ex.name %></p>
+                <p class="exercise-meta">
+                  <%= ex.muscle_group || 'Full body' %> ·
+                  <%= ex.target_sets %> sets ·
+                  <%= ex.target_reps %> reps
+                </p>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+
+        <div style="margin-top: 16px;">
+          <% if (isAuthenticated) { %>
+            <a href="/quests/<%= quest.id %>/log" class="btn btn-primary">Log completion</a>
+          <% } else { %>
+            <a href="/users/login" class="btn btn-primary">Login to log this quest</a>
+          <% } %>
+          <a href="/quests" class="btn btn-ghost" style="margin-left: 8px;">Back to all quests</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
