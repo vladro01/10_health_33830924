@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>LevelUp Health Quests</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="<%= basePath %>/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,23 @@
       </div>
 
       <nav class="nav-links">
-        <a href="/" class="nav-link nav-link-active">Dashboard</a>
-        <a href="/quests" class="nav-link">Quests</a>
-        <a href="/search" class="nav-link">Search</a>
-        <a href="/weather" class="nav-link">Weather</a>
-        <a href="/about" class="nav-link">About</a>
+        <a href="<%= basePath %>/" class="nav-link nav-link-active">Dashboard</a>
+        <a href="<%= basePath %>/quests" class="nav-link">Quests</a>
+        <a href="<%= basePath %>/search" class="nav-link">Search</a>
+        <a href="<%= basePath %>/weather" class="nav-link">Weather</a>
+        <a href="<%= basePath %>/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
         <% if (isAuthenticated) { %>
           <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <a href="<%= basePath %>/quests/me/logs" class="btn btn-ghost small">My logs</a>
           <% if (username === 'gold') { %>
-            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+            <a href="<%= basePath %>/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+          <a href="<%= basePath %>/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="/users/login" class="btn btn-primary small">Login</a>
+          <a href="<%= basePath %>/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -71,8 +71,8 @@
               times and reps to level up.
             </p>
             <a
-                href="<%= dailyQuest ? ('/quests/' + dailyQuest.id) : '/quests' %>"
-                class="btn btn-primary large" >Start quest</a>
+                href="<%= dailyQuest ? (basePath + '/quests/' + dailyQuest.id) : (basePath + '/quests') %>"
+                class="btn btn-primary large">Start quest</a>
           </div>
 
           <div class="quest-exercises">
@@ -118,7 +118,7 @@
             </p>
           <% } else { %>
             <p class="hint">
-              <a href="/users/login">Log in</a> to start tracking your progress and unlock logs.
+              <a href="<%= basePath %>/users/login">Log in</a> to start tracking your progress and unlock logs.
             </p>
           <% } %>
         </footer>
@@ -133,7 +133,7 @@
             Planning a jog? Use the weather checker to see if conditions are good
             for the <strong>Medium Jogging Quest</strong>.
           </p>
-          <a href="/weather" class="btn btn-outline full-width">Open weather module</a>
+          <a href="<%= basePath %>/weather" class="btn btn-outline full-width">Open weather module</a>
         </section>
 
         <section class="card card-stats">
@@ -151,8 +151,8 @@
             <span class="stat-value"><%= outdoorQuests || '0' %></span>
           </li>
           <p class="card-text small">
-            View <a href="/quests">all quests</a> or
-            <a href="/quests/me/logs">your logs</a> to see how you’re progressing.
+            View <a href="<%= basePath %>/quests">all quests</a> or
+            <a href="<%= basePath %>/quests/me/logs">your logs</a> to see how you’re progressing.
           </p>
         </section>
       </aside>

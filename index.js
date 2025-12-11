@@ -20,8 +20,10 @@ const db = mysql.createPool({
   database: process.env.HEALTH_DATABASE || 'health'
 });
 
-// make it available everywhere like in the labs
 global.db = db;
+
+// ---------- BASE PATH ----------
+const basePath = process.env.HEALTH_BASE_PATH || '';
 
 // ---------- MIDDLEWARE ----------
 
@@ -41,10 +43,11 @@ app.use(
   })
 );
 
-// expose logged-in user to all views
+// expose logged-in user and basePath to all views
 app.use((req, res, next) => {
   res.locals.isAuthenticated = !!req.session.userId;
   res.locals.username = req.session.username || null;
+  res.locals.basePath = basePath;   // 👈 key line
   next();
 });
 
@@ -55,8 +58,6 @@ const userRoutes = require('./routes/users');
 const questRoutes = require('./routes/quests');
 const apiRoutes = require('./routes/api');
 const weatherRoutes = require('./routes/weather');
-
-const basePath = process.env.HEALTH_BASE_PATH || '';
 
 app.use('/', mainRoutes);
 app.use('/users', userRoutes);

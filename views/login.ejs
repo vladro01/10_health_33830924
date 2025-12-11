@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Login – LevelUp Health Quests</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="<%= basePath %>/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,23 @@
       </div>
 
       <nav class="nav-links">
-        <a href="/" class="nav-link">Dashboard</a>
-        <a href="/quests" class="nav-link">Quests</a>
-        <a href="/search" class="nav-link">Search</a>
-        <a href="/weather" class="nav-link">Weather</a>
-        <a href="/about" class="nav-link">About</a>
+        <a href="<%= basePath %>/" class="nav-link">Dashboard</a>
+        <a href="<%= basePath %>/quests" class="nav-link">Quests</a>
+        <a href="<%= basePath %>/search" class="nav-link">Search</a>
+        <a href="<%= basePath %>/weather" class="nav-link">Weather</a>
+        <a href="<%= basePath %>/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
         <% if (isAuthenticated) { %>
           <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <a href="<%= basePath %>/quests/me/logs" class="btn btn-ghost small">My logs</a>
           <% if (username === 'gold') { %>
-            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
+            <a href="<%= basePath %>/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="/users/logout" class="btn btn-outline small">Logout</a>
+          <a href="<%= basePath %>/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="/users/login" class="btn btn-primary small">Login</a>
+          <a href="<%= basePath %>/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -47,7 +47,7 @@
           <div class="error-banner"><%= error %></div>
         <% } %>
 
-        <form method="post" action="/users/login" class="stack-vertical">
+        <form method="post" action="<%= basePath %>/users/login" class="stack-vertical">
           <div class="form-row">
             <label>Username</label>
             <input type="text" name="username" required>
@@ -61,7 +61,7 @@
 
         <p class="card-text small" style="margin-top: 10px;">
             Coursework demo: <strong>gold</strong> / <strong>smiths</strong><br>
-            New here? <a href="/users/register">Create an account</a>.
+            New here? <a href="<%= basePath %>/users/register">Create an account</a>.
           </p>
 
       </section>
