@@ -20,10 +20,8 @@ const db = mysql.createPool({
   database: process.env.HEALTH_DATABASE || 'health'
 });
 
+// make pool globally available
 global.db = db;
-
-// ---------- BASE PATH ----------
-const basePath = process.env.HEALTH_BASE_PATH || '';
 
 // ---------- MIDDLEWARE ----------
 
@@ -43,11 +41,10 @@ app.use(
   })
 );
 
-// expose logged-in user and basePath to all views
+// expose logged-in user to all views
 app.use((req, res, next) => {
   res.locals.isAuthenticated = !!req.session.userId;
   res.locals.username = req.session.username || null;
-  res.locals.basePath = basePath;   // 👈 key line
   next();
 });
 

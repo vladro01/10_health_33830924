@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title><%= quest.name %> – LevelUp</title>
-    <link rel="stylesheet" href="<%= basePath %>/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,23 @@
       </div>
 
       <nav class="nav-links">
-        <a href="<%= basePath %>/" class="nav-link">Dashboard</a>
-        <a href="<%= basePath %>/quests" class="nav-link nav-link-active">Quests</a>
-        <a href="<%= basePath %>/search" class="nav-link">Search</a>
-        <a href="<%= basePath %>/weather" class="nav-link">Weather</a>
-        <a href="<%= basePath %>/about" class="nav-link">About</a>
+        <a href="" class="nav-link">Dashboard</a>
+        <a href="quests" class="nav-link nav-link-active">Quests</a>
+        <a href="search" class="nav-link">Search</a>
+        <a href="weather" class="nav-link">Weather</a>
+        <a href="about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
         <% if (isAuthenticated) { %>
           <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="<%= basePath %>/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
           <% if (username === 'gold') { %>
-            <a href="<%= basePath %>/users/audit" class="btn btn-ghost small">Audit</a>
+            <a href="users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="<%= basePath %>/users/logout" class="btn btn-outline small">Logout</a>
+          <a href="users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="<%= basePath %>/users/login" class="btn btn-primary small">Login</a>
+          <a href="users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -42,7 +42,7 @@
         <p class="page-subtitle">
           Difficulty: <span class="badge"><%= quest.difficulty %></span>
           <% if (quest.is_outdoor) { %>
-            · Outdoor quest - you may want to <a href="<%= basePath %>/weather">check the weather</a> first.
+            · Outdoor quest - you may want to <a href="weather">check the weather</a> first.
           <% } %>
         </p>
 
@@ -71,11 +71,11 @@
 
         <div style="margin-top: 16px;">
           <% if (isAuthenticated) { %>
-            <a href="<%= basePath %>/quests/<%= quest.id %>/log" class="btn btn-primary">Log completion</a>
+            <a href="quests/<%= quest.id %>/log" class="btn btn-primary">Log completion</a>
           <% } else { %>
-            <a href="<%= basePath %>/users/login" class="btn btn-primary">Login to log this quest</a>
+            <a href="users/login" class="btn btn-primary">Login to log this quest</a>
           <% } %>
-          <a href="<%= basePath %>/quests" class="btn btn-ghost" style="margin-left: 8px;">Back to all quests</a>
+          <a href="quests" class="btn btn-ghost" style="margin-left: 8px;">Back to all quests</a>
         </div>
       </section>
     </main>
