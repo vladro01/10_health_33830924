@@ -1,0 +1,10 @@
+home=https://www.doc.gold.ac.uk/usr/247/
+about=https://www.doc.gold.ac.uk/usr/247/about
+search=https://www.doc.gold.ac.uk/usr/247/search
+quests=https://www.doc.gold.ac.uk/usr/247/quests
+quest_logs=https://www.doc.gold.ac.uk/usr/247/quests/me/logs
+login=https://www.doc.gold.ac.uk/usr/247/users/login
+register=https://www.doc.gold.ac.uk/usr/247/users/register
+logout=https://www.doc.gold.ac.uk/usr/247/users/logout
+audit=https://www.doc.gold.ac.uk/usr/247/users/audit
+weather=https://www.doc.gold.ac.uk/usr/247/weather
