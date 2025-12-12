@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Search quests – LevelUp</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,27 @@
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link">Quests</a>
-        <a href="search" class="nav-link nav-link-active">Search</a>
-        <a href="weather" class="nav-link">Weather</a>
-        <a href="about" class="nav-link">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link nav-link-active">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
+        <% 
+          const loggedIn = (typeof isAuthenticated !== 'undefined' && isAuthenticated) ||
+                           (typeof username !== 'undefined' && username);
+        %>
+        <% if (loggedIn) { %>
+          <span class="user-greeting">Welcome, <strong><%= typeof username !== 'undefined' ? username : 'user' %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (typeof username !== 'undefined' && username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -40,14 +44,19 @@
         <p class="eyebrow">Search</p>
         <h1 class="page-title">Find a quest</h1>
         <p class="page-subtitle">
-          Search by name, difficulty and whether the quest is outdoor-focused.
+          This is a friendly front-end for the main quest library filters.
         </p>
 
-        <form method="get" action="quests" class="stack-vertical">
+        <form method="get" action="/quests" class="stack-vertical">
           <div class="form-row">
             <label>Search by name</label>
-            <input type="text" name="search" placeholder="e.g. Hero, Jogging">
+            <input
+              type="text"
+              name="search"
+              placeholder="e.g. abs, jog, push-ups..."
+            >
           </div>
+
           <div class="form-row">
             <label>Difficulty</label>
             <select name="difficulty">
@@ -57,14 +66,20 @@
               <option value="hard">Hard</option>
             </select>
           </div>
+
           <div class="form-row">
             <label>
-              <input type="checkbox" name="outdoor" value="1">
+              <input type="checkbox" name="outdoor" value="1" />
               Outdoor quests only
             </label>
           </div>
+
           <button type="submit" class="btn btn-primary">Search quests</button>
         </form>
+
+        <p class="card-text small" style="margin-top: 10px;">
+          Results will be shown on the <a href="/quests">Quests</a> page.
+        </p>
       </section>
     </main>
   </body>

@@ -1,5 +1,4 @@
 // routes/quests.js
-
 const express = require('express');
 const router = express.Router();
 
@@ -54,7 +53,7 @@ router.get('/', (req, res, next) => {
       quests: results,
       searchTerm: search,
       selectedDifficulty: difficulty,
-      outdoorOnly: outdoor === '1'
+      outdoorOnly: outdoor === '1',
     });
   });
 });
@@ -95,10 +94,16 @@ router.post('/:id/log', redirectLogin, (req, res, next) => {
   const questId = parseInt(req.params.id, 10);
   const userId = req.session.userId;
 
-  const performed_on = req.body.performed_on || new Date().toISOString().slice(0, 10);
-  const duration_minutes = parseInt(req.body.duration_minutes || '0', 10) || null;
-  const status = req.sanitize ? req.sanitize(req.body.status || 'completed') : (req.body.status || 'completed');
-  const notes = req.sanitize ? req.sanitize(req.body.notes || '') : (req.body.notes || '');
+  const performed_on =
+    req.body.performed_on || new Date().toISOString().slice(0, 10);
+  const duration_minutes =
+    parseInt(req.body.duration_minutes || '0', 10) || null;
+  const status = req.sanitize
+    ? req.sanitize(req.body.status || 'completed')
+    : req.body.status || 'completed';
+  const notes = req.sanitize
+    ? req.sanitize(req.body.notes || '')
+    : req.body.notes || '';
 
   const sql = `
     INSERT INTO quest_logs (user_id, quest_id, performed_on, duration_minutes, status, notes)

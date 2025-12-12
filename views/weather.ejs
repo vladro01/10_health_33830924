@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Weather – LevelUp</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,27 @@
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link">Quests</a>
-        <a href="search" class="nav-link">Search</a>
-        <a href="weather" class="nav-link nav-link-active">Weather</a>
-        <a href="about" class="nav-link">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link nav-link-active">Weather</a>
+        <a href="/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
+        <% 
+          const loggedIn = (typeof isAuthenticated !== 'undefined' && isAuthenticated) ||
+                           (typeof username !== 'undefined' && username);
+        %>
+        <% if (loggedIn) { %>
+          <span class="user-greeting">Welcome, <strong><%= typeof username !== 'undefined' ? username : 'user' %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (typeof username !== 'undefined' && username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -44,7 +48,7 @@
           for the <strong>Medium Jogging Quest</strong>.
         </p>
 
-        <form action="weather" method="POST" class="stack-vertical">
+        <form action="/weather" method="POST" class="stack-vertical">
           <div class="form-row">
             <label>City</label>
             <input type="text" id="city" name="city" value="<%= city || '' %>" required>
@@ -77,7 +81,7 @@
             <% } %>
 
             <% if (joggingQuest) { %>
-              <a href="quests/<%= joggingQuest.id %>" class="btn btn-outline full-width" style="margin-top: 6px;">
+              <a href="/quests/<%= joggingQuest.id %>" class="btn btn-outline full-width" style="margin-top: 6px;">
                 View "<%= joggingQuest.name %>" quest
               </a>
             <% } %>

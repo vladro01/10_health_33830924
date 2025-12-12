@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Quests – LevelUp</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,80 +14,99 @@
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link nav-link-active">Quests</a>
-        <a href="search" class="nav-link">Search</a>
-        <a href="weather" class="nav-link">Weather</a>
-        <a href="about" class="nav-link">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link nav-link-active">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
+        <% 
+          const loggedIn = (typeof isAuthenticated !== 'undefined' && isAuthenticated) ||
+                           (typeof username !== 'undefined' && username);
+        %>
+        <% if (loggedIn) { %>
+          <span class="user-greeting">
+            Welcome, <strong><%= typeof username !== 'undefined' ? username : 'user' %></strong>
+          </span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (typeof username !== 'undefined' && username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
 
     <main class="content-wide">
       <section class="card-page">
-        <p class="eyebrow">Quests</p>
+        <p class="eyebrow">Quest library</p>
         <h1 class="page-title">All quests</h1>
         <p class="page-subtitle">
-          Filter by difficulty or outdoor status, or type a search term to narrow down the list.
+          Filter by difficulty, outdoor quests, or search by name.
         </p>
 
-        <form method="get" action="quests" class="stack-vertical" style="margin-bottom: 12px;">
+        <form method="get" action="/quests" class="stack-vertical">
           <div class="form-row">
             <label>Search by name</label>
-            <input type="text" name="search" value="<%= searchTerm || '' %>">
+            <input
+              type="text"
+              name="search"
+              placeholder="e.g. Abs, jog, HIIT..."
+              value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>"
+            />
           </div>
+
           <div class="form-row">
             <label>Difficulty</label>
             <select name="difficulty">
-              <option value="" <%= !selectedDifficulty ? 'selected' : '' %>>Any</option>
-              <option value="easy" <%= selectedDifficulty === 'easy' ? 'selected' : '' %>>Easy</option>
+              <option value="">Any</option>
+              <option value="easy"   <%= selectedDifficulty === 'easy'   ? 'selected' : '' %>>Easy</option>
               <option value="medium" <%= selectedDifficulty === 'medium' ? 'selected' : '' %>>Medium</option>
-              <option value="hard" <%= selectedDifficulty === 'hard' ? 'selected' : '' %>>Hard</option>
+              <option value="hard"   <%= selectedDifficulty === 'hard'   ? 'selected' : '' %>>Hard</option>
             </select>
           </div>
+
           <div class="form-row">
             <label>
-              <input type="checkbox" name="outdoor" value="1" <%= outdoorOnly ? 'checked' : '' %>>
+              <input
+                type="checkbox"
+                name="outdoor"
+                value="1"
+                <%= outdoorOnly ? 'checked' : '' %>
+              />
               Outdoor quests only
             </label>
           </div>
-          <button type="submit" class="btn btn-outline">Apply filters</button>
+
+          <button type="submit" class="btn btn-primary">Apply filters</button>
         </form>
 
         <% if (!quests || quests.length === 0) { %>
-          <p>No quests found. Try changing your filters.</p>
+          <p class="card-text" style="margin-top: 16px;">
+            No quests found with these filters. Try clearing them or searching for something else.
+          </p>
         <% } else { %>
-          <table class="table-soft">
+          <table class="table-soft" style="margin-top: 18px;">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Difficulty</th>
                 <th>Outdoor</th>
-                <th>Duration</th>
+                <th>Difficulty</th>
+                <th>Target time</th>
               </tr>
             </thead>
             <tbody>
-              <% quests.forEach(function(q) { %>
+              <% quests.forEach(function (q) { %>
                 <tr>
                   <td>
-                    <a href="quests/<%= q.id %>"><%= q.name %></a>
-                  </td>
-                  <td>
-                    <span class="badge"><%= q.difficulty %></span>
+                    <a href="/quests/<%= q.id %>"><%= q.name %></a>
                   </td>
                   <td><%= q.is_outdoor ? 'Yes' : 'No' %></td>
+                  <td><span class="badge"><%= q.difficulty %></span></td>
                   <td><%= q.target_minutes || '—' %> min</td>
                 </tr>
               <% }); %>

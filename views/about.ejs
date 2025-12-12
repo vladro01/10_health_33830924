@@ -3,34 +3,38 @@
   <head>
     <meta charset="utf-8">
     <title>About – LevelUp Health Quests</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
       <div class="top-bar-left">
         <div class="logo-dot"></div>
-        <span class="app-name">ARISE</span>
+        <span class="app-name">LevelUp</span>
         <span class="app-subtitle">Health Quests</span>
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link">Quests</a>
-        <a href="search" class="nav-link">Search</a>
-        <a href="weather" class="nav-link">Weather</a>
-        <a href="about" class="nav-link nav-link-active">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link nav-link-active">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
+        <% 
+          const loggedIn = (typeof isAuthenticated !== 'undefined' && isAuthenticated) ||
+                           (typeof username !== 'undefined' && username);
+        %>
+        <% if (loggedIn) { %>
+          <span class="user-greeting">Welcome, <strong><%= typeof username !== 'undefined' ? username : 'user' %></strong></span>
+          <a href="/quests/me/logs" class="btn btn-ghost small">My logs</a>
+          <% if (typeof username !== 'undefined' && username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -38,26 +42,25 @@
     <main class="content-narrow">
       <section class="card-page">
         <p class="eyebrow">About</p>
-        <h1 class="page-title">LevelUp: Health & Fitness quests</h1>
+        <h1 class="page-title">LevelUp Health Quests</h1>
         <p class="page-subtitle">
-          A gamified health app built for the Dynamic Web Applications coursework, combining
-          quests, exercise logs and weather-aware outdoor runs.
+          A coursework demo app that turns small workouts into RPG-style quests.
         </p>
 
-        <p>
-          LevelUp turns your daily training into a series of quests. Each quest
-          focuses on a specific goal and you can log completions to see your progress over time.
+        <p class="card-text">
+          LevelUp is designed as a simple health and fitness helper: instead of huge
+          vague goals, it breaks activity into short, named quests like
+          <em>Abs of Steel</em> or <em>Medium Jogging Quest</em>.
         </p>
 
-        <p>
-          The app uses a MySQL database, secure logins, server-side rendering with EJS
-          and a live weather API to help you decide when to run outside.
+        <p class="card-text">
+          You can browse quests, log completions, and use the weather module to check
+          whether outdoor running is a good idea today.
         </p>
 
-        <p class="card-text small">
-          Use the <strong>Dashboard</strong> to start today’s core quest, explore all
-          quests from the <strong>Quests</strong> tab, and check conditions for your
-          next run using <strong>Weather</strong>.
+        <p class="card-text small" style="margin-top: 10px;">
+          This system is built with Node.js, Express, MySQL, EJS templates and a
+          small amount of external API usage (OpenWeather).
         </p>
       </section>
     </main>

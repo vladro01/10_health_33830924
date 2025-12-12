@@ -1,31 +1,72 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>Login audit - <%= shopData.shopName %></title>
-    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <meta charset="utf-8">
+    <title>Login audit – LevelUp</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
-  <body>
-    <h1>Login audit log for <%= shopData.shopName %></h1>
+  <body class="page">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <div class="logo-dot"></div>
+        <span class="app-name">LevelUp</span>
+        <span class="app-subtitle">Health Quests</span>
+      </div>
 
-    <% if (!logs || logs.length === 0) { %>
-      <p>No login attempts recorded yet.</p>
-    <% } else { %>
-      <table>
-        <tr>
-          <th>Time</th>
-          <th>Username</th>
-          <th>Result</th>
-        </tr>
-        <% logs.forEach(function (r) { %>
-          <tr>
-            <td><%= r.timestamp %></td>
-            <td><%= r.username || "(unknown)" %></td>
-            <td><%= r.success ? "SUCCESS" : "FAIL" %></td>
-          </tr>
-        <% }); %>
-      </table>
-    <% } %>
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
+      </nav>
 
-    <p><a href="/">Back to home</a></p>
+      <div class="user-area">
+        <a href="/users/logout" class="btn btn-outline small">Logout</a>
+      </div>
+    </header>
+
+    <main class="content-wide">
+      <section class="card-page">
+        <p class="eyebrow">Security</p>
+        <h1 class="page-title">Login audit log</h1>
+        <p class="page-subtitle">
+          Recent login attempts recorded by the application.
+        </p>
+
+        <% const rows = (typeof logs !== 'undefined' && logs) ? logs : []; %>
+
+        <% if (!rows || rows.length === 0) { %>
+          <p class="card-text">No login attempts recorded yet.</p>
+        <% } else { %>
+          <table class="table-soft">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Username</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% rows.forEach(function (r) { %>
+                <tr>
+                  <td><%= r.timestamp || r.created_at || '' %></td>
+                  <td><%= r.username || r.username_attempt || '(unknown)' %></td>
+                  <td>
+                    <% if (typeof r.success !== 'undefined') { %>
+                      <%= r.success ? 'SUCCESS' : 'FAIL' %>
+                    <% } else if (r.event_type) { %>
+                      <%= r.event_type %>
+                    <% } else { %>
+                      —
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } %>
+      </section>
+    </main>
   </body>
 </html>

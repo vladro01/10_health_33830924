@@ -8,13 +8,14 @@ router.get('/', (req, res, next) => {
   const stats = {
     questsAvailable: 0,
     coreQuests: 0,
-    outdoorQuests: 0
+    outdoorQuests: 0,
   };
 
   const dailyQuestName = 'Abs of Steel';
 
   const sqlAll = 'SELECT COUNT(*) AS total FROM quests';
-  const sqlCore = "SELECT COUNT(*) AS total FROM quests WHERE LOWER(description) LIKE '%core%'";
+  const sqlCore =
+    "SELECT COUNT(*) AS total FROM quests WHERE LOWER(description) LIKE '%core%'";
   const sqlOutdoor = 'SELECT COUNT(*) AS total FROM quests WHERE is_outdoor = 1';
 
   db.query(sqlAll, (err, rowsAll) => {
@@ -38,11 +39,17 @@ router.get('/', (req, res, next) => {
         db.query(dailySql, [dailyQuestName], (err4, dqRows) => {
           if (err4) return next(err4);
           const dailyQuest = dqRows[0] || null;
+
+          const isAuthenticated = !!(req.session && req.session.userId);
+          const username = req.session ? req.session.username : null;
+
           res.render('index', {
             questsAvailable: stats.questsAvailable,
             coreQuests: stats.coreQuests,
             outdoorQuests: stats.outdoorQuests,
-            dailyQuest
+            dailyQuest,
+            isAuthenticated,
+            username,
           });
         });
       });
@@ -55,7 +62,7 @@ router.get('/about', (req, res) => {
   res.render('about');
 });
 
-// SEARCH (shows form; search runs via /quests)
+// SEARCH (shows form; filtering happens on /quests)
 router.get('/search', (req, res) => {
   res.render('search');
 });

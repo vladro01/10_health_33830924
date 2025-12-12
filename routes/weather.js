@@ -1,5 +1,4 @@
 // routes/weather.js
-
 const express = require('express');
 const request = require('request');
 
@@ -15,7 +14,7 @@ router.get('/', (req, res) => {
     conditionMain: null,
     conditionDescription: null,
     joggingRecommendation: null,
-    joggingQuest: null
+    joggingQuest: null,
   });
 });
 
@@ -33,7 +32,7 @@ router.post('/', (req, res, next) => {
       conditionMain: null,
       conditionDescription: null,
       joggingRecommendation: null,
-      joggingQuest: null
+      joggingQuest: null,
     });
   }
 
@@ -56,7 +55,7 @@ router.post('/', (req, res, next) => {
           conditionMain: null,
           conditionDescription: null,
           joggingRecommendation: null,
-          joggingQuest: null
+          joggingQuest: null,
         });
       }
 
@@ -68,7 +67,9 @@ router.post('/', (req, res, next) => {
       const conditionMain =
         weather.weather && weather.weather[0] ? weather.weather[0].main : '';
       const conditionDescription =
-        weather.weather && weather.weather[0] ? weather.weather[0].description : '';
+        weather.weather && weather.weather[0]
+          ? weather.weather[0].description
+          : '';
 
       const weatherMessage =
         `It is ${temp}°C (feels like ${feelsLike}°C) in ${weather.name}. ` +
@@ -77,7 +78,8 @@ router.post('/', (req, res, next) => {
       // Simple “is this good for running?” logic
       let joggingRecommendation = '';
       const badConditions = ['Thunderstorm', 'Snow', 'Tornado'];
-      const isRaining = conditionMain === 'Rain' || conditionMain === 'Drizzle';
+      const isRaining =
+        conditionMain === 'Rain' || conditionMain === 'Drizzle';
 
       if (temp < 3 || temp > 30 || badConditions.includes(conditionMain)) {
         joggingRecommendation =
@@ -90,13 +92,15 @@ router.post('/', (req, res, next) => {
           'This looks like good weather for a run. Perfect time to try the Medium Jogging Quest!';
       }
 
-      const joggingQuestSql = 'SELECT id, name FROM quests WHERE name = ? LIMIT 1';
+      const joggingQuestSql =
+        'SELECT id, name FROM quests WHERE name = ? LIMIT 1';
       db.query(joggingQuestSql, ['Medium Jogging Quest'], (qErr, qRows) => {
         if (qErr) {
           console.error('Error looking up jogging quest:', qErr);
         }
 
-        const joggingQuest = qRows && qRows.length > 0 ? qRows[0] : null;
+        const joggingQuest =
+          qRows && qRows.length > 0 ? qRows[0] : null;
 
         res.render('weather', {
           city: weather.name,
@@ -105,7 +109,7 @@ router.post('/', (req, res, next) => {
           conditionMain,
           conditionDescription,
           joggingRecommendation,
-          joggingQuest
+          joggingQuest,
         });
       });
     } catch (e) {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>My logs – LevelUp</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,23 +14,26 @@
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link">Quests</a>
-        <a href="search" class="nav-link">Search</a>
-        <a href="weather" class="nav-link">Weather</a>
-        <a href="about" class="nav-link">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link nav-link-active">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
+        <% 
+          const loggedIn = (typeof isAuthenticated !== 'undefined' && isAuthenticated) ||
+                           (typeof username !== 'undefined' && username);
+        %>
+        <% if (loggedIn) { %>
+          <span class="user-greeting">Welcome, <strong><%= typeof username !== 'undefined' ? username : 'user' %></strong></span>
+          <% if (typeof username !== 'undefined' && username === 'gold') { %>
+            <a href="/users/audit" class="btn btn-ghost small">Audit</a>
           <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
+          <a href="/users/logout" class="btn btn-outline small">Logout</a>
         <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
+          <a href="/users/login" class="btn btn-primary small">Login</a>
         <% } %>
       </div>
     </header>
@@ -40,11 +43,11 @@
         <p class="eyebrow">Progress</p>
         <h1 class="page-title">My quest logs</h1>
         <p class="page-subtitle">
-          A history of quests you’ve completed, with dates, durations and notes.
+          Recent quest completions recorded for your account.
         </p>
 
         <% if (!logs || logs.length === 0) { %>
-          <p>You haven’t logged any quests yet. Start with <a href="">today’s daily quest</a>.</p>
+          <p class="card-text">You have no logs yet. Complete a quest and log it from the quest page.</p>
         <% } else { %>
           <table class="table-soft">
             <thead>
@@ -59,10 +62,12 @@
               </tr>
             </thead>
             <tbody>
-              <% logs.forEach(function(log) { %>
+              <% logs.forEach(function (log) { %>
                 <tr>
-                  <td><%= log.performed_on.toISOString().slice(0,10) %></td>
-                  <td><a href="quests/<%= log.quest_id %>"><%= log.quest_name %></a></td>
+                  <td><%= log.performed_on %></td>
+                  <td>
+                    <a href="/quests/<%= log.quest_id %>"><%= log.quest_name %></a>
+                  </td>
                   <td><span class="badge"><%= log.difficulty %></span></td>
                   <td><%= log.is_outdoor ? 'Yes' : 'No' %></td>
                   <td><%= log.duration_minutes || '—' %> min</td>

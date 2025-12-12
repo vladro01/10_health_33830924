@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Login – LevelUp Health Quests</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="page">
     <header class="top-bar">
@@ -14,24 +14,15 @@
       </div>
 
       <nav class="nav-links">
-        <a href="" class="nav-link">Dashboard</a>
-        <a href="quests" class="nav-link">Quests</a>
-        <a href="search" class="nav-link">Search</a>
-        <a href="weather" class="nav-link">Weather</a>
-        <a href="about" class="nav-link">About</a>
+        <a href="/" class="nav-link">Dashboard</a>
+        <a href="/quests" class="nav-link">Quests</a>
+        <a href="/search" class="nav-link">Search</a>
+        <a href="/weather" class="nav-link">Weather</a>
+        <a href="/about" class="nav-link">About</a>
       </nav>
 
       <div class="user-area">
-        <% if (isAuthenticated) { %>
-          <span class="user-greeting">Welcome, <strong><%= username %></strong></span>
-          <a href="quests/me/logs" class="btn btn-ghost small">My logs</a>
-          <% if (username === 'gold') { %>
-            <a href="users/audit" class="btn btn-ghost small">Audit</a>
-          <% } %>
-          <a href="users/logout" class="btn btn-outline small">Logout</a>
-        <% } else { %>
-          <a href="users/login" class="btn btn-primary small">Login</a>
-        <% } %>
+        <a href="/users/register" class="btn btn-ghost small">Register</a>
       </div>
     </header>
 
@@ -40,14 +31,14 @@
         <p class="eyebrow">Account</p>
         <h1 class="page-title">Sign in</h1>
         <p class="page-subtitle">
-          Log in to track quest completions and view your personal training logs.
+          Log in to track your quests and see your progress.
         </p>
 
-        <% if (error) { %>
+        <% if (typeof error !== 'undefined' && error) { %>
           <div class="error-banner"><%= error %></div>
         <% } %>
 
-        <form method="post" action="users/login" class="stack-vertical">
+        <form method="post" action="/users/login" class="stack-vertical">
           <div class="form-row">
             <label>Username</label>
             <input type="text" name="username" required>
@@ -60,10 +51,8 @@
         </form>
 
         <p class="card-text small" style="margin-top: 10px;">
-            Coursework demo: <strong>gold</strong> / <strong>smiths</strong><br>
-            New here? <a href="users/register">Create an account</a>.
-          </p>
-
+          New here? <a href="/users/register">Create an account</a>.
+        </p>
       </section>
     </main>
   </body>
