@@ -106,3 +106,22 @@ It was built for a Web Applications lab using **Node.js**, **Express**, **MySQL*
 ├─ links.txt               # handy links for marking (home, quests, logs, etc.)
 ├─ .env                    # environment variables (not committed)
 └─ package.json
+```
+---
+
+## Setup
+Run npm install for all packages
+
+Login into mysql -u root -p
+Then run create_db.sql and insert_test_data.sql.
+
+Create a .env file like this:
+```bash
+HEALTH_HOST=localhost
+HEALTH_USER=health_app
+HEALTH_PASSWORD=qwertyuiop
+HEALTH_DATABASE=health
+OPENWEATHER_API_KEY=8966c9d292dcf7908a7466e89d9b4ac7
+```
+
+To start the app do "npm start"
